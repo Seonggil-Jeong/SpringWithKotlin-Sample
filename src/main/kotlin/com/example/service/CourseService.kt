@@ -6,4 +6,7 @@ interface CourseService {
 
     fun addCourse(courseDTO: CourseDTO) : CourseDTO
 
+    fun findAllCourse() : List<CourseDTO>
+    fun findCourseByCourseId(courseId: Int): CourseDTO
+
 }
