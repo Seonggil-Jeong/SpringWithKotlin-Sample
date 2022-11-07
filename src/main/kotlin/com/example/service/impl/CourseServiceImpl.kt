@@ -9,12 +9,15 @@ import com.example.service.CourseService
 import mu.KLogging
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.lang.Exception
 
 @Service
 class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService {
 
     companion object : KLogging()
 
+    @Transactional(rollbackFor = [Exception::class])
     override fun addCourse(courseDTO: CourseDTO) = courseRepository.save(courseDTO.let {
         Course(id = null, name = it.name, category = it.category)
     }).let { entity -> // entity --> DTO
@@ -35,6 +38,7 @@ class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService 
         return CourseDTO(result.id, result.name, result.category)
     }
 
+    @Transactional(rollbackFor = [Exception::class])
     override fun updateCourse(courseId: Int, request: CourseDTO): CourseDTO {
         val result = courseRepository.findByIdOrNull(courseId)
             ?: throw CourseException(CourseExceptionResult.COURSE_NOT_FOUND)
@@ -45,4 +49,6 @@ class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService 
 
     }
 
+    @Transactional(rollbackFor = [Exception::class])
+    override fun deleteCourse(courseId: Int) = courseRepository.deleteById(courseId)
 }

@@ -6,6 +6,7 @@ import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,5 +40,10 @@ class CourseController(val courseService: CourseService) {
     fun updateCourse( /// Kotlin Param 은 항상 불변
         @Valid @RequestBody courseDTO: CourseDTO, @PathVariable courseId: Int): ResponseEntity<CourseDTO>
     = ResponseEntity.ok().body(courseService.updateCourse(courseId, courseDTO))
+
+
+    @DeleteMapping("/courses/{courseId}")
+    fun deleteCourse(@PathVariable courseId: Int) : ResponseEntity<Any>
+    = ResponseEntity.ok().body(courseService.deleteCourse(courseId))
 
 }
