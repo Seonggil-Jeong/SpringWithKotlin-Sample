@@ -50,5 +50,8 @@ class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService 
     }
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun deleteCourse(courseId: Int) = courseRepository.deleteById(courseId)
+    override fun deleteCourse(courseId: Int) = courseId.run {
+        logger.info("delete Course Id : $this")
+        courseRepository.deleteById(this)
+    }
 }
