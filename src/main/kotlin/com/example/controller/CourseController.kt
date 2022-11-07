@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -33,5 +34,10 @@ class CourseController(val courseService: CourseService) {
 
     @GetMapping("/courses/{courseId}")
     fun findCourse(@PathVariable courseId: Int) = ResponseEntity.ok().body(courseService.findCourseByCourseId(courseId))
+
+    @PutMapping("/courses/{courseId}")
+    fun updateCourse( /// Kotlin Param 은 항상 불변
+        @Valid @RequestBody courseDTO: CourseDTO, @PathVariable courseId: Int): ResponseEntity<CourseDTO>
+    = ResponseEntity.ok().body(courseService.updateCourse(courseId, courseDTO))
 
 }

@@ -29,11 +29,20 @@ class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService 
     }
 
     override fun findCourseByCourseId(courseId: Int): CourseDTO {
-        val result : Course = courseRepository.findByIdOrNull(courseId)
+        val result: Course = courseRepository.findByIdOrNull(courseId)
             ?: throw CourseException(CourseExceptionResult.COURSE_NOT_FOUND)
 
         return CourseDTO(result.id, result.name, result.category)
     }
 
+    override fun updateCourse(courseId: Int, request: CourseDTO): CourseDTO {
+        val result = courseRepository.findByIdOrNull(courseId)
+            ?: throw CourseException(CourseExceptionResult.COURSE_NOT_FOUND)
+
+        return courseRepository.save(Course(result.id, request.name, request.category)).let {
+            CourseDTO(it.id, it.name, it.category)
+        }
+
+    }
 
 }
