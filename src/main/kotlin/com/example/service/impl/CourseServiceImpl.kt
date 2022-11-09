@@ -19,7 +19,7 @@ class CourseServiceImpl(val courseRepository: CourseRepository) : CourseService 
 
     @Transactional(rollbackFor = [Exception::class])
     override fun addCourse(courseDTO: CourseDTO) = courseRepository.save(courseDTO.let {
-        Course(id = null, name = it.name, category = it.category)
+        Course(_id = null, _name = it.name, _category = it.category)
     }).let { entity -> // entity --> DTO
         CourseDTO(id = entity.id, name = entity.name, category = entity.category)
     }

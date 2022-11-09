@@ -16,7 +16,6 @@ class GreetingServiceImpl : GreetingService {
     @Value("\${message}")
     lateinit var message: String
 
-
     override fun retrieveGreeting(name: String): String = "$message $name"
 
 }
